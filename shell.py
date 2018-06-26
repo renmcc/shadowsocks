@@ -27,8 +27,8 @@ import traceback
 
 from functools import wraps
 
-from shadowsocks.common import to_bytes, to_str, IPNetwork
-from shadowsocks import cryptor
+from common import to_bytes, to_str, IPNetwork
+import cryptor
 
 
 VERBOSE_LEVEL = 5

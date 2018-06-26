@@ -26,8 +26,8 @@ import logging
 import traceback
 import random
 
-from shadowsocks import cryptor, eventloop, shell, common
-from shadowsocks.common import parse_header, onetimeauth_verify, \
+import cryptor, eventloop, shell, common
+from common import parse_header, onetimeauth_verify, \
     onetimeauth_gen, ONETIMEAUTH_BYTES, ONETIMEAUTH_CHUNK_BYTES, \
     ONETIMEAUTH_CHUNK_DATA_LEN, ADDRTYPE_AUTH
 
@@ -142,6 +142,10 @@ class TCPRelayHandler(object):
         self._upstream_status = WAIT_STATUS_READING
         self._downstream_status = WAIT_STATUS_INIT
         self._client_address = local_sock.getpeername()[:2]
+
+        self._client_address1 = local_sock.getsockname()
+
+
         self._remote_address = None
         self._forbidden_iplist = config.get('forbidden_ip')
         if is_local:
@@ -334,9 +338,12 @@ class TCPRelayHandler(object):
         if header_result is None:
             raise Exception('can not parse header')
         addrtype, remote_addr, remote_port, header_length = header_result
-        logging.info('connecting %s:%d from %s:%d' %
+        #logging.info('connecting %s:%d from %s:%d' %
+                     #(common.to_str(remote_addr), remote_port,
+                      #self._client_address[0], self._client_address[1]))
+        logging.info('connecting %s:%d from %s:%d,  ' %
                      (common.to_str(remote_addr), remote_port,
-                      self._client_address[0], self._client_address[1]))
+                      self._client_address[0], self._client_address[1], ))
         if self._is_local is False:
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
@@ -842,6 +849,7 @@ class TCPRelay(object):
                 # TODO
                 raise Exception('server_socket error')
             try:
+
                 logging.debug('accept')
                 conn = self._server_socket.accept()
                 TCPRelayHandler(self, self._fd_to_handlers,

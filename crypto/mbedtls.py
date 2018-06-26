@@ -17,9 +17,9 @@ from __future__ import absolute_import, division, print_function, \
 from ctypes import c_char_p, c_int, c_size_t, byref,\
     create_string_buffer, c_void_p
 
-from shadowsocks import common
-from shadowsocks.crypto import util
-from shadowsocks.crypto.aead import AeadCryptoBase
+import common
+from crypto import util
+from crypto.aead import AeadCryptoBase
 
 __all__ = ['ciphers']
 
