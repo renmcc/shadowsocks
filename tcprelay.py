@@ -341,9 +341,9 @@ class TCPRelayHandler(object):
         #logging.info('connecting %s:%d from %s:%d' %
                      #(common.to_str(remote_addr), remote_port,
                       #self._client_address[0], self._client_address[1]))
-        logging.info('connecting %s:%d from %s:%d,  ' %
+        logging.info('connecting %s:%d from %s:%d,  %s' %
                      (common.to_str(remote_addr), remote_port,
-                      self._client_address[0], self._client_address[1], ))
+                      self._client_address[0], self._client_address[1], data))
         if self._is_local is False:
             # spec https://shadowsocks.org/en/spec/one-time-auth.html
             self._ota_enable_session = addrtype & ADDRTYPE_AUTH
